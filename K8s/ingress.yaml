@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+    # # type of authentication
+    # ingress.kubernetes.io/auth-type: basic
+    # # name of the secret that contains the user/password definitions
+    # ingress.kubernetes.io/auth-secret: foosauth
+    # # message to display with an appropiate context why the authentication is required
+    # ingress.kubernetes.io/auth-realm: "Authentication Required - FoosTourney"
+spec:
+  tls:
+  - hosts:
+    - auth.k8s.wdc.sl.g2trk.com
+    secretName: auth-tls
+  rules:
+  - host: auth.k8s.wdc.sl.g2trk.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: auth
+          servicePort: 8080

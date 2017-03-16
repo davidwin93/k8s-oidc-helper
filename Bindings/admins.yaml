@@ -1,0 +1,17 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  name: cluster-admin
+subjects:
+  - kind: User
+    name: david.winiarski@go2mobi.com
+  - kind: Group
+    name: system:serviceaccount
+  - kind: User
+    name: node1.k8s.dev.aws.g2trk.com
+  - kind: User
+    name: kubelet
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io

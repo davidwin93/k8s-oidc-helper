@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: go2mobitech/k8sauth:0.0.1
+          imagePullPolicy: Always
+          env:
+          - name: GIN_MODE
+            value: debug
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 8080
+          #   initialDelaySeconds: 5
+          #   timeoutSeconds: 1
+          ports:
+          - containerPort: 8080
+      imagePullSecrets:
+          - name: dockerregistrykey
